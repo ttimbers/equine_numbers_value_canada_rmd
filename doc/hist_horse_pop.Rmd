@@ -1,0 +1,50 @@
+---
+title: "Historical horse population in Canada"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = here::here())
+library(tidyverse)
+```
+
+## Aim
+
+This project explores the historical population of horses in Canada between 1906 and 1972 for each Province.
+
+
+## Data
+
+```{r load data, include = FALSE}
+horse_pop <- read_csv("data/00030067-eng.csv")
+horse_pop <- filter(horse_pop,
+                    DATE == "At June 1 (x 1,000)",
+                    GEO != "Canada")
+horse_pop$Value <- horse_pop$Value * 1000
+```
+
+Horse population data were sourced from the [Government of Canada's Open Data website](http://open.canada.ca/en/open-data). Specifically, these two sources were used:
+
+- [Horses, number on farms at June 1 and at December 1](http://open.canada.ca/data/en/dataset/43b3a9b3-3842-45e7-8bc8-c4c27b9462ab)
+- [Horses, number on farms at June 1, farm value per head and total farm value](http://open.canada.ca/data/en/dataset/b374f60b-9580-44dc-83f6-c0a850c15f30)
+
+
+
+## Results
+
+```{r plot horses, echo=FALSE, fig.width=10, fig.height=3}
+(horse_plot <- ggplot(horse_pop, aes(x = Ref_Date, y = Value)) +
+  geom_point() +
+  geom_line() +
+  xlab("Year") +
+  ylab("Number of horses") +
+  ggtitle("Historical number of horses per province in Canada") +
+  facet_grid(~GEO) +
+  scale_y_continuous(labels = scales::comma)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+We can see from the visualisation above that Ontario, Saskatchewan and Alberta have had the highest horse populations in Canada. All provinces have had a decline in horse
+populations since 1940. This is likely due to the rebound of the Canadian automotive
+industry after the Great Depression and the Second World War. An interesting follow-up visualization would be car sales per year for each Province over the time period visualised above to further support this hypothesis. 
