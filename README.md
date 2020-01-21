@@ -1,7 +1,7 @@
 # Historical horse population in Canada
 Author: Tiffany Timbers
 
-[Report](doc/hist_horse_pop.md) that explores the historical population of horses in Canada between 1906 and 1972 per province.
+Report that explores the historical population of horses in Canada between 1906 and 1972 per province.
 
 ## Dependencies:
 - R and R packages:
